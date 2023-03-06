@@ -1,4 +1,4 @@
-BOOK_PATH = 'book/book.txt'
+BOOK_PATH = 'book.txt'
 PAGE_SIZE = 1050
 
 book: dict[int, str] = {}
@@ -25,7 +25,19 @@ def _get_part_text(text: str, start: int, size: int) -> tuple[str, int]:
 
 # Функция, формирующая словарь книги
 def prepare_book(path: str) -> None:
-    pass
+    start = 0
+    with open(path, encoding='UTF8') as f:
+        text = f.read()
+    size = PAGE_SIZE
+    i = 1
+    while len(text[start:]) > 0:
+        page_text, real_page_size = _get_part_text(text, start, size)
+        book[i] = page_text.strip()
+        # print(i, book[i])
+        i += 1
+        start += real_page_size
+
+    # print(book)
 
 
 # Вызов функции prepare_book для подготовки книги из текстового файла
